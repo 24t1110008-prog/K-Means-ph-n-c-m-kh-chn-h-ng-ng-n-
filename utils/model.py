@@ -1,5 +1,5 @@
-from sklearn.preprocessing import StandardScaler
 import streamlit as st
+from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import MiniBatchKMeans
 
 @st.cache_resource
