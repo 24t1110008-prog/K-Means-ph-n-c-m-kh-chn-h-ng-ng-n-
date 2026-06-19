@@ -1,137 +1,40 @@
 import pandas as pd
 
-
 def preprocess(df):
-
-    # Chỉ giữ các cột cần thiết
-
     cols = [
-
         'CustomerID',
-
         'CustomerDOB',
-
         'CustAccountBalance',
-
         'TransactionAmount (INR)'
-
     ]
-
     df = df[cols].copy()
 
-
-    # Xóa dòng thiếu ở các cột quan trọng
-
     df = df.dropna(
-
         subset=[
-
             'CustomerID',
-
             'CustomerDOB',
-
             'CustAccountBalance',
-
             'TransactionAmount (INR)'
-
         ]
-
     )
 
+    df['CustomerDOB'] = pd.to_datetime(df['CustomerDOB'], errors='coerce', format='%d/%m/%Y')
+    df = df.dropna(subset=['CustomerDOB'])
 
-    # DOB -> datetime
-# Nếu dữ liệu dạng Ngày/Tháng/Năm (ví dụ: 25/12/2000)
-df['CustomerDOB'] = pd.to_datetime(df['CustomerDOB'], errors='coerce', format='%d/%m/%Y')
-df = df.dropna(subset=['CustomerDOB'])
-    )
+    df['Age'] = 2026 - df['CustomerDOB'].dt.year
 
-
-    # Xóa DOB lỗi
-
-    df = df.dropna(
-
-        subset=['CustomerDOB']
-
-    )
-
-
-    # Tính tuổi
-
-    df['Age'] = (
-
-        2026
-
-        -
-
-        df['CustomerDOB'].dt.year
-
-    )
-
-
-    # Lọc tuổi hợp lý
-
-    df = df[
-
-        (df['Age'] >= 18)
-
-        &
-
-        (df['Age'] <= 100)
-
-    ]
-
-
-    # Gom nhóm khách hàng
+    df = df[(df['Age'] >= 18) & (df['Age'] <= 100)]
 
     customer = (
-
-        df.groupby(
-
-            'CustomerID'
-
-        )
-
+        df.groupby('CustomerID')
         .agg(
-
-            Age=('Age','first'),
-
-            AvgBalance=(
-
-                'CustAccountBalance',
-
-                'mean'
-
-            ),
-
-            TotalTransaction=(
-
-                'TransactionAmount (INR)',
-
-                'sum'
-
-            ),
-
-            AvgTransaction=(
-
-                'TransactionAmount (INR)',
-
-                'mean'
-
-            ),
-
-            TransactionCount=(
-
-                'TransactionAmount (INR)',
-
-                'count'
-
-            )
-
+            Age=('Age', 'first'),
+            AvgBalance=('CustAccountBalance', 'mean'),
+            TotalTransaction=('TransactionAmount (INR)', 'sum'),
+            AvgTransaction=('TransactionAmount (INR)', 'mean'),
+            TransactionCount=('TransactionAmount (INR)', 'count')
         )
-
         .reset_index()
-
     )
-
 
     return customer
