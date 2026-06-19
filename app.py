@@ -21,7 +21,14 @@ st.set_page_config(
 # ==========================
 # LOAD CSS
 # ==========================
+import os
 
+# Thêm đoạn này vào trước hoặc ngay tại dòng 25
+current_dir = os.path.dirname(os.path.abspath(__file__))
+css_path = os.path.join(current_dir, "assets", "style.css")
+
+# Sửa lại dòng open file thành css_path
+with open(css_path, encoding="utf-8") as f:
 with open("assets/style.css", encoding="utf-8") as f:
 
     st.markdown(
