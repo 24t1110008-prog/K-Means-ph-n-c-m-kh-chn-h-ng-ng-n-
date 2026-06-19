@@ -48,6 +48,7 @@ def preprocess(df):
         errors='coerce',
 
         dayfirst=True
+        format='mixed'
 
     )
 
