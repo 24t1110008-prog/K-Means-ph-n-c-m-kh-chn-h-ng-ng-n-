@@ -2,6 +2,12 @@ import streamlit as st
 import plotly.express as px
 from sklearn.decomposition import PCA
 import os
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
 
 from utils.data_loader import load_data
 from utils.preprocess import preprocess
@@ -13,15 +19,13 @@ st.set_page_config(
     layout="wide"
 )
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-parent_dir = os.path.dirname(current_dir)
 css_path = os.path.join(parent_dir, "assets", "style.css")
-
-with open(css_path, encoding="utf-8") as f:
-    st.markdown(
-        f"<style>{f.read()}</style>",
-        unsafe_allow_html=True
-    )
+if os.path.exists(css_path):
+    with open(css_path, encoding="utf-8") as f:
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True
+        )
 
 with st.spinner("Đang đọc dữ liệu..."):
     df = load_data()
