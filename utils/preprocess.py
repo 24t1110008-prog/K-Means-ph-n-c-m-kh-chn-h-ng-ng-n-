@@ -42,7 +42,7 @@ def preprocess(df):
     # DOB -> datetime
 # Nếu dữ liệu dạng Ngày/Tháng/Năm (ví dụ: 25/12/2000)
 df['CustomerDOB'] = pd.to_datetime(df['CustomerDOB'], errors='coerce', format='%d/%m/%Y')
-
+df = df.dropna(subset=['CustomerDOB'])
     )
 
 
