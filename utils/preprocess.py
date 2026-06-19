@@ -46,8 +46,7 @@ def preprocess(df):
         df['CustomerDOB'],
 
         errors='coerce',
-
-        dayfirst=True
+        
         format='mixed'
 
     )
