@@ -2,7 +2,7 @@ from sklearn.preprocessing import StandardScaler
 
 from sklearn.cluster import MiniBatchKMeans
 
-
+@st.cache_resource
 def train_model(
 
     customer,
