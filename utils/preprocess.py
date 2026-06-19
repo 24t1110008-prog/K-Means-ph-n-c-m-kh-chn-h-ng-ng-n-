@@ -40,14 +40,8 @@ def preprocess(df):
 
 
     # DOB -> datetime
-
-    df['CustomerDOB'] = pd.to_datetime(
-
-        df['CustomerDOB'],
-
-        errors='coerce',
-        
-        format='mixed'
+# Nếu dữ liệu dạng Ngày/Tháng/Năm (ví dụ: 25/12/2000)
+df['CustomerDOB'] = pd.to_datetime(df['CustomerDOB'], errors='coerce', format='%d/%m/%Y')
 
     )
 
